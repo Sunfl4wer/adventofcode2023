@@ -12,14 +12,18 @@ pub fn print_vec(vtr: &[i32]) {
 }
 
 pub fn to_num_i64(s: String) -> i64 {
-    let cs: Vec<char> = s.chars().collect();
+    let cs: Vec<char> = s.chars().filter(|s| *s != '-').collect();
     let mut res: i64 = 0;
     let zero: i64 = '0' as i64;
     for c in cs {
         let v = c as i64 - zero;
         res = res * 10 + v;
     }
-    res
+    let mut t = 1;
+    if s.starts_with("-") {
+        t = -1;
+    }
+    res * t
 }
 
 pub fn to_num(s: String) -> i32 {
@@ -52,4 +56,25 @@ pub fn is_digit(c: char) -> bool {
             return false;
         }
     }
+}
+
+pub fn gcd(mut a: i64, mut b: i64) -> i64 {
+    while b > 0 {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    a
+}
+
+pub fn lcm(a: i64, b: i64) -> i64 {
+    a * b / gcd(a, b)
+}
+
+pub fn lcmm(nums: &[i64]) -> i64 {
+    let mut res = nums[0];
+    for i in 1..nums.len() {
+        res = lcm(res, nums[i]);
+    }
+    res
 }
